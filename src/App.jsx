@@ -71,9 +71,9 @@ const C = {
 };
 
 const S = {
-  app: { fontFamily: "'Georgia', serif", background: C.bg, minHeight: "100vh", color: C.text, maxWidth: 430, margin: "0 auto", display: "flex", flexDirection: "column" },
+  app: { fontFamily: "'Georgia', serif", background: C.bg, minHeight: "100vh", color: C.text, width: "100%", maxWidth: 430, margin: "0 auto", display: "flex", flexDirection: "column" },
   header: { padding: "16px 20px 0", display: "flex", justifyContent: "space-between", alignItems: "flex-start" },
-  title: { fontSize: 28, fontWeight: "bold", margin: 0, letterSpacing: -0.5 },
+  title: { fontSize: 28, fontWeight: "bold", margin: 0, letterSpacing: -0.5, color: C.text },
   subtitle: { fontSize: 13, color: C.muted, marginTop: 2 },
   headerRight: { background: C.card, borderRadius: 12, padding: "10px 14px", textAlign: "right", minWidth: 80, border: `1px solid ${C.border}` },
   headerNum: { fontSize: 26, fontWeight: "bold", color: C.accent, lineHeight: 1, display: "block" },
@@ -81,7 +81,7 @@ const S = {
   tabs: { display: "flex", padding: "12px 20px 0", gap: 16, borderBottom: `1px solid ${C.border}`, marginTop: 12, overflowX: "auto" },
   tab: { fontSize: 14, padding: "0 0 10px", cursor: "pointer", border: "none", background: "none", color: C.muted, borderBottom: "2px solid transparent", fontFamily: "'Georgia', serif", whiteSpace: "nowrap" },
   tabActive: { color: C.text, borderBottom: `2px solid ${C.accent}`, fontWeight: "600" },
-  body: { flex: 1, overflowY: "auto", padding: "16px 20px 32px" },
+  body: { flex: 1, overflowY: "auto", overflowX: "hidden", padding: "16px 20px 32px" },
   section: { marginBottom: 20 },
   sectionLabel: { fontSize: 11, letterSpacing: 1.2, color: C.muted, fontWeight: "600", marginBottom: 10, fontFamily: "system-ui, sans-serif" },
   card: { background: C.card, borderRadius: 12, padding: "14px 16px", border: `1px solid ${C.border}`, marginBottom: 10 },
@@ -116,7 +116,7 @@ const S = {
   targetSub: { fontSize: 11, color: C.muted },
   select: { width: "100%", background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 15, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none", appearance: "none", backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a7560' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 14px center" },
   footer: { textAlign: "center", padding: "12px 20px", fontSize: 11, color: C.muted, borderTop: `1px solid ${C.border}` },
-  dateInput: { width: "100%", background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 15, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none" },
+  dateInput: { width: "100%", maxWidth: "100%", background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 15, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none" },
 };
 
 // ─── CONSTANTS ─────────────────────────────────────────────────────────────────
@@ -651,7 +651,7 @@ export default function FitnessTracker() {
             <div style={S.section}>
               <div style={S.sectionLabel}>ADD MEAL</div>
               <div style={S.inputRow}>
-                <input style={{ ...S.input, flex: 1 }} placeholder="Meal name, Calories, Protein(g)" value={mealInput}
+                <input style={{ ...S.input, flex: 1, minWidth: 0 }} placeholder="Meal name, Calories, Protein(g)" value={mealInput}
                   onChange={e => setMealInput(e.target.value)} onKeyDown={e => e.key === "Enter" && addMeal()} />
                 <button style={S.btnSmall} onClick={addMeal}>Add</button>
               </div>
@@ -748,7 +748,7 @@ export default function FitnessTracker() {
                   <label style={S.label}>Exercise</label>
                   {!showNewExercise ? (
                     <div style={{ display: "flex", gap: 8 }}>
-                      <select style={{ ...S.select, flex: 1 }} value={gymExercise} onChange={e => handleExerciseChange(e.target.value, gymLog)}>
+                      <select style={{ ...S.select, flex: 1, minWidth: 0 }} value={gymExercise} onChange={e => handleExerciseChange(e.target.value, gymLog)}>
                         <option value="">Select exercise...</option>
                         {allExercises.map(ex => <option key={ex} value={ex}>{ex}</option>)}
                       </select>
@@ -832,9 +832,9 @@ export default function FitnessTracker() {
             <div style={S.section}>
               <div style={S.sectionLabel}>DATA</div>
               <div style={{ display: "flex", gap: 10 }}>
-                <button style={S.btnOutline} onClick={() => fileInputRef.current?.click()}>⬆ Upload</button>
+                <button style={{ ...S.btnOutline, flex: 1 }} onClick={() => fileInputRef.current?.click()}>⬆ Upload</button>
                 <input ref={fileInputRef} type="file" accept=".json" style={{ display: "none" }} onChange={handleUpload} />
-                <button style={S.btnOutline} onClick={handleDownload}>⬇ Download</button>
+                <button style={{ ...S.btnOutline, flex: 1 }} onClick={handleDownload}>⬇ Download</button>
               </div>
               {uploadMsg && <div style={{ ...S.hint, color: uploadMsg.includes("success") ? C.green : C.red, marginTop: 8 }}>{uploadMsg}</div>}
             </div>
