@@ -72,7 +72,7 @@ const C = {
 };
 
 const S = {
-  app: { fontFamily: "'Georgia', serif", background: C.bg, minHeight: "100vh", color: C.text, width: "100%", maxWidth: 430, margin: "0 auto", display: "flex", flexDirection: "column" },
+  app: { fontFamily: "'Georgia', serif", background: C.bg, minHeight: "100vh", color: C.text, width: "100%", maxWidth: 430, margin: "0 auto", display: "flex", flexDirection: "column", textAlign: "left" },
   header: { padding: "16px 20px 0", display: "flex", justifyContent: "space-between", alignItems: "flex-start" },
   title: { fontSize: 28, fontWeight: "bold", margin: 0, letterSpacing: -0.5, color: C.text, fontFamily: "'Georgia', serif" },
   subtitle: { fontSize: 13, color: C.muted, marginTop: 2 },
