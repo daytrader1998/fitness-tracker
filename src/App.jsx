@@ -79,14 +79,14 @@ const S = {
   headerRight: { background: C.card, borderRadius: 12, padding: "10px 14px", textAlign: "right", minWidth: 80, border: `1px solid ${C.border}` },
   headerNum: { fontSize: 26, fontWeight: "bold", color: C.accent, lineHeight: 1, display: "block" },
   headerLabel: { fontSize: 11, color: C.muted, display: "block" },
-  tabs: { display: "flex", padding: "12px 20px 0", gap: 16, borderBottom: `1px solid ${C.border}`, marginTop: 12, overflowX: "auto" },
-  tab: { fontSize: 14, padding: "0 0 10px", cursor: "pointer", border: "none", background: "none", color: C.muted, borderBottom: "2px solid transparent", fontFamily: "'Georgia', serif", whiteSpace: "nowrap", fontWeight: "600" },
+  tabs: { display: "flex", padding: "12px 20px 0", borderBottom: `1px solid ${C.border}`, marginTop: 12 },
+  tab: { fontSize: 14, padding: "0 0 10px", cursor: "pointer", border: "none", background: "none", color: C.muted, borderBottom: "2px solid transparent", fontFamily: "'Georgia', serif", whiteSpace: "nowrap", fontWeight: "600", flex: 1, textAlign: "center" },
   tabActive: { color: C.text, borderBottom: `2px solid ${C.accent}` },
   body: { flex: 1, overflowY: "auto", overflowX: "hidden", padding: "16px 20px 32px" },
   section: { marginBottom: 20 },
   sectionLabel: { fontSize: 11, letterSpacing: 1.2, color: C.muted, fontWeight: "600", marginBottom: 10, fontFamily: "system-ui, sans-serif" },
   card: { background: C.card, borderRadius: 12, padding: "14px 16px", border: `1px solid ${C.border}`, marginBottom: 10 },
-  input: { width: "100%", background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 15, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none" },
+  input: { width: "100%", background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 16, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none" },
   inputRow: { display: "flex", gap: 10 },
   inputHalf: { flex: 1 },
   label: { fontSize: 13, color: C.muted, marginBottom: 4, display: "block" },
@@ -102,22 +102,21 @@ const S = {
   statVal: { fontSize: 15, fontWeight: "bold" },
   statTarget: { fontSize: 15, color: C.muted },
   avgGrid: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 },
-  avgCard: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 10px", textAlign: "center" },
-  avgNum: { fontSize: 20, fontWeight: "bold", color: C.accent, display: "block" },
-  avgLabel: { fontSize: 11, color: C.muted, marginTop: 2, display: "block" },
-  mealItem: { display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "6px 0" },
-  mealName: { fontSize: 14, flex: 1, paddingRight: 10 },
-  mealRight: { textAlign: "right" },
-  mealKcal: { fontSize: 14, fontWeight: "bold", color: C.accent },
-  mealProt: { fontSize: 12, color: C.muted },
+  avgCard: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "8px 10px", textAlign: "center" },
+  avgNum: { fontSize: 18, fontWeight: "bold", color: C.accent, display: "block" },
+  avgLabel: { fontSize: 11, color: C.muted, marginTop: 1, display: "block" },
+  mealItem: { padding: "6px 0" },
+  mealName: { fontSize: 15, fontWeight: "600", color: C.text, marginBottom: 1 },
+  mealKcal: { fontSize: 13, fontWeight: "bold", color: C.accent },
+  mealProt: { fontSize: 13, color: C.muted },
   targetGrid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 },
   targetCard: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: "14px" },
   targetNum: { fontSize: 28, fontWeight: "bold", color: C.accent, lineHeight: 1 },
   targetLabel: { fontSize: 13, color: C.text, marginTop: 4 },
   targetSub: { fontSize: 11, color: C.muted },
-  select: { width: "100%", background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 15, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none", appearance: "none", backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a7560' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 14px center" },
+  select: { width: "100%", background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 16, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none", appearance: "none", backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a7560' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 14px center" },
   footer: { textAlign: "center", padding: "12px 20px", fontSize: 11, color: C.muted, borderTop: `1px solid ${C.border}` },
-  dateInput: { width: "100%", maxWidth: "100%", minWidth: 0, WebkitAppearance: "none", appearance: "none", background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 14, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none" },
+  dateInput: { width: "100%", maxWidth: "100%", minWidth: 0, WebkitAppearance: "none", appearance: "none", background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 16, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none" },
 };
 
 // ─── CONSTANTS ─────────────────────────────────────────────────────────────────
@@ -134,6 +133,9 @@ const MUSCLE_GROUP_OPTIONS = [
   "Biceps", "Forearms", "Glutes", "Hamstrings",
   "Lats", "Quads", "Shoulders", "Traps", "Triceps"
 ];
+
+// ─── GYM SLOT HELPERS ─────────────────────────────────────────────────────────
+function emptySlot() { return { exercise: "", muscles: [], reps: "", weight: "", notes: "", showNew: false, newName: "" }; }
 
 // ─── MUSCLE GROUP PICKER ───────────────────────────────────────────────────────
 function MuscleGroupPicker({ selected, onChange, allGroups }) {
@@ -299,13 +301,7 @@ export default function FitnessTracker() {
   const saveTimerRef = useRef(null);
 
   const [gymSessionActive, setGymSessionActive] = useState(false);
-  const [gymExercise, setGymExercise] = useState("");
-  const [gymMuscles, setGymMuscles] = useState([]);
-  const [gymReps, setGymReps] = useState("");
-  const [gymWeight, setGymWeight] = useState("");
-  const [gymNotes, setGymNotes] = useState("");
-  const [showNewExercise, setShowNewExercise] = useState(false);
-  const [newExerciseName, setNewExerciseName] = useState("");
+  const [gymSlots, setGymSlots] = useState([emptySlot()]);
 
   // ── Load from Supabase on mount ──
   useEffect(() => {
@@ -420,39 +416,43 @@ export default function FitnessTracker() {
     saveWeightLog({ ...weightLog, [activeDate]: { weight, bf, goalPct, activity: parseFloat(form.activity), height } });
   }
 
-  function handleExerciseChange(name, currentGymLog) {
-    setGymExercise(name);
+  function updateSlot(idx, updates) {
+    setGymSlots(slots => slots.map((s, i) => i === idx ? { ...s, ...updates } : s));
+  }
+
+  function handleSlotExerciseChange(idx, name, currentGymLog) {
     const allEntries = Object.values(currentGymLog).flatMap(day => day.exercises || []);
     const match = allEntries.filter(e => e.name === name).pop();
-    if (match) setGymMuscles(match.muscleGroups || []);
-    else setGymMuscles([]);
+    const muscles = match ? (match.muscleGroups || []) : [];
     const lastSet = getLastSetForExercise(name, currentGymLog);
-    if (lastSet) { setGymReps(String(lastSet.reps)); setGymWeight(String(lastSet.weight)); }
-    else { setGymReps(""); setGymWeight(""); }
-    setGymNotes("");
+    updateSlot(idx, { exercise: name, muscles, reps: lastSet ? String(lastSet.reps) : "", weight: lastSet ? String(lastSet.weight) : "", notes: "" });
   }
 
   function addGymSet() {
-    const exerciseName = showNewExercise ? newExerciseName.trim() : gymExercise;
-    if (!exerciseName || !gymReps || !gymWeight) return;
-    const reps = parseInt(gymReps);
-    const weight = parseFloat(gymWeight);
-    if (isNaN(reps) || isNaN(weight)) return;
-    const newSet = { reps, weight, notes: gymNotes.trim() };
     const currentDay = gymLog[activeDate] || { exercises: [] };
-    const exercises = [...(currentDay.exercises || [])];
-    const existingIdx = exercises.findIndex(e => e.name === exerciseName);
-    if (existingIdx >= 0) {
-      exercises[existingIdx] = { ...exercises[existingIdx], sets: [...exercises[existingIdx].sets, newSet] };
-    } else {
-      exercises.push({ name: exerciseName, muscleGroups: gymMuscles, sets: [newSet] });
+    let exercises = [...(currentDay.exercises || [])];
+    let anyLogged = false;
+    for (const slot of gymSlots) {
+      const exerciseName = slot.showNew ? slot.newName.trim() : slot.exercise;
+      if (!exerciseName || !slot.reps || !slot.weight) continue;
+      const reps = parseInt(slot.reps);
+      const weight = parseFloat(slot.weight);
+      if (isNaN(reps) || isNaN(weight)) continue;
+      const newSet = { reps, weight, notes: slot.notes.trim() };
+      const existingIdx = exercises.findIndex(e => e.name === exerciseName);
+      if (existingIdx >= 0) {
+        exercises[existingIdx] = { ...exercises[existingIdx], sets: [...exercises[existingIdx].sets, newSet] };
+      } else {
+        exercises.push({ name: exerciseName, muscleGroups: slot.muscles, sets: [newSet] });
+      }
+      anyLogged = true;
     }
-    const newGymLog = { ...gymLog, [activeDate]: { exercises } };
-    saveGymLog(newGymLog);
-    setGymReps(String(reps));
-    setGymWeight(String(weight));
-    setGymNotes("");
-    if (showNewExercise) { setGymExercise(exerciseName); setShowNewExercise(false); setNewExerciseName(""); }
+    if (!anyLogged) return;
+    saveGymLog({ ...gymLog, [activeDate]: { exercises } });
+    setGymSlots(slots => slots.map(slot => {
+      const resolvedName = slot.showNew ? slot.newName.trim() : slot.exercise;
+      return { ...slot, exercise: resolvedName || slot.exercise, showNew: false, newName: "", notes: "" };
+    }));
   }
 
   // ── Upload JSON backup ──
@@ -504,10 +504,16 @@ export default function FitnessTracker() {
       if (mealLog[ds]) days.push(ds);
     }
     if (days.length < 7) return null;
-    return {
-      avgCal: Math.round(days.reduce((s, d) => s + (mealLog[d] || []).reduce((a, m) => a + m.cal, 0), 0) / 7),
-      avgProt: Math.round(days.reduce((s, d) => s + (mealLog[d] || []).reduce((a, m) => a + m.prot, 0), 0) / 7),
-    };
+    const avgCal = Math.round(days.reduce((s, d) => s + (mealLog[d] || []).reduce((a, m) => a + m.cal, 0), 0) / 7);
+    const avgProt = Math.round(days.reduce((s, d) => s + (mealLog[d] || []).reduce((a, m) => a + m.prot, 0), 0) / 7);
+    const ts = days.map(d => {
+      const prior = Object.keys(weightLog).filter(x => x <= d).sort();
+      if (!prior.length) return null;
+      const e = weightLog[prior[prior.length - 1]];
+      return calcTargets(e.weight, e.bf, e.goalPct, e.activity, e.height)?.targetCal;
+    }).filter(Boolean);
+    const avgTarget = ts.length ? Math.round(ts.reduce((a, b) => a + b, 0) / ts.length) : null;
+    return { avgCal, avgProt, avgTarget };
   })();
 
   const weekToDate = (() => {
@@ -689,9 +695,10 @@ export default function FitnessTracker() {
             <div style={S.section}>
               <div style={S.sectionLabel}>7-DAY ROLLING AVERAGE</div>
               {rollingAvg ? (
-                <div style={S.card}>
-                  <div style={S.statRow}><span style={S.statLabel}>Calories</span><span style={S.statVal}>{fmt(rollingAvg.avgCal)} Kcal/day</span></div>
-                  <div style={S.statRow}><span style={S.statLabel}>Protein</span><span style={S.statVal}>{fmt(rollingAvg.avgProt)}g/day</span></div>
+                <div style={S.avgGrid}>
+                  <div style={S.avgCard}><span style={S.avgNum}>{fmt(rollingAvg.avgCal)}</span><span style={S.avgLabel}>Kcal/Day</span></div>
+                  <div style={S.avgCard}><span style={S.avgNum}>{fmt(rollingAvg.avgProt)}g</span><span style={S.avgLabel}>Protein/Day</span></div>
+                  {rollingAvg.avgTarget && <div style={S.avgCard}><span style={S.avgNum}>{fmt(rollingAvg.avgTarget)}</span><span style={S.avgLabel}>Kcal Target</span></div>}
                 </div>
               ) : <div style={{ ...S.card, color: C.muted, fontSize: 14 }}>Appears once 7 complete days prior to today are logged.</div>}
             </div>
@@ -715,7 +722,7 @@ export default function FitnessTracker() {
                   {activeMeals.map((m, i) => (
                     <div key={i} style={{ ...S.mealItem, borderBottom: i < activeMeals.length - 1 ? `1px solid ${C.border}` : "none" }}>
                       <div style={S.mealName}>{m.name}</div>
-                      <div style={S.mealRight}><div style={S.mealKcal}>{fmt(m.cal)} Kcal</div><div style={S.mealProt}>{m.prot}g</div></div>
+                      <div><span style={S.mealKcal}>{fmt(m.cal)} Kcal</span><span style={S.mealProt}> · {m.prot}g</span></div>
                     </div>
                   ))}
                 </div>
@@ -732,9 +739,7 @@ export default function FitnessTracker() {
               <button
                 style={{ ...S.btn, background: gymSessionActive ? "transparent" : C.accent, color: gymSessionActive ? C.accent : "#fff", border: gymSessionActive ? `1px solid ${C.accent}` : "none" }}
                 onClick={() => {
-                  if (gymSessionActive) {
-                    setGymExercise(""); setGymMuscles([]); setGymReps(""); setGymWeight(""); setGymNotes(""); setShowNewExercise(false); setNewExerciseName("");
-                  }
+                  if (gymSessionActive) setGymSlots([emptySlot()]);
                   setGymSessionActive(a => !a);
                 }}
               >
@@ -745,49 +750,76 @@ export default function FitnessTracker() {
             {gymSessionActive && (
               <div style={S.section}>
                 <div style={S.sectionLabel}>LOG A SET</div>
-                <div style={{ marginBottom: 10 }}>
-                  <label style={S.label}>Exercise</label>
-                  {!showNewExercise ? (
-                    <div style={{ display: "flex", gap: 8 }}>
-                      <select style={{ ...S.select, flex: 1, minWidth: 0 }} value={gymExercise} onChange={e => handleExerciseChange(e.target.value, gymLog)}>
-                        <option value="">Select exercise...</option>
-                        {allExercises.map(ex => <option key={ex} value={ex}>{ex}</option>)}
-                      </select>
-                      <button style={S.btnSmall} onClick={() => { setShowNewExercise(true); setGymExercise(""); setGymMuscles([]); setGymReps(""); setGymWeight(""); }}>+ New</button>
+                {gymSlots.map((slot, si) => (
+                  <div key={si}>
+                    {si > 0 && (
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "14px 0 12px" }}>
+                        <div style={{ flex: 1, height: 1, background: C.border }} />
+                        <span style={{ fontSize: 11, color: C.muted, letterSpacing: 0.8, fontFamily: "system-ui" }}>SUPERSET {si + 1}</span>
+                        <div style={{ flex: 1, height: 1, background: C.border }} />
+                      </div>
+                    )}
+                    <div style={{ marginBottom: 10 }}>
+                      <label style={S.label}>Exercise</label>
+                      {!slot.showNew ? (
+                        <div style={{ display: "flex", gap: 8 }}>
+                          <select style={{ ...S.select, flex: 1, minWidth: 0 }} value={slot.exercise} onChange={e => handleSlotExerciseChange(si, e.target.value, gymLog)}>
+                            <option value="">Select exercise...</option>
+                            {allExercises.map(ex => <option key={ex} value={ex}>{ex}</option>)}
+                          </select>
+                          <button style={S.btnSmall} onClick={() => updateSlot(si, { showNew: true, exercise: "", muscles: [], reps: "", weight: "" })}>+ New</button>
+                        </div>
+                      ) : (
+                        <div style={{ display: "flex", gap: 8 }}>
+                          <input style={{ ...S.input, flex: 1 }} placeholder="Exercise name..." value={slot.newName}
+                            onChange={e => updateSlot(si, { newName: e.target.value })} autoFocus />
+                          <button style={S.btnOutlineSmall} onClick={() => updateSlot(si, { showNew: false, newName: "" })}>Cancel</button>
+                        </div>
+                      )}
                     </div>
-                  ) : (
-                    <div style={{ display: "flex", gap: 8 }}>
-                      <input style={{ ...S.input, flex: 1 }} placeholder="Exercise name..." value={newExerciseName}
-                        onChange={e => setNewExerciseName(e.target.value)} autoFocus />
-                      <button style={S.btnOutlineSmall} onClick={() => { setShowNewExercise(false); setNewExerciseName(""); }}>Cancel</button>
+                    {(slot.exercise || slot.showNew) && (
+                      <div style={{ marginBottom: 10 }}>
+                        <label style={S.label}>Muscle Groups</label>
+                        <MuscleGroupPicker selected={slot.muscles} onChange={muscles => updateSlot(si, { muscles })} allGroups={allHistoricMuscleGroups} />
+                      </div>
+                    )}
+                    <div style={{ ...S.inputRow, marginBottom: 10 }}>
+                      <div style={S.inputHalf}>
+                        <label style={S.label}>Reps</label>
+                        <input style={S.input} type="number" placeholder="8" value={slot.reps}
+                          onChange={e => updateSlot(si, { reps: e.target.value })} onKeyDown={e => e.key === "Enter" && addGymSet()} />
+                      </div>
+                      <div style={S.inputHalf}>
+                        <label style={S.label}>Weight</label>
+                        <div style={{ position: "relative" }}>
+                          <input style={{ ...S.input, paddingRight: 36 }} type="number" placeholder="80" value={slot.weight}
+                            onChange={e => updateSlot(si, { weight: e.target.value })} onKeyDown={e => e.key === "Enter" && addGymSet()} />
+                          <span style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", color: C.muted, fontSize: 13 }}>kg</span>
+                        </div>
+                      </div>
                     </div>
+                    <div style={{ marginBottom: si === gymSlots.length - 1 ? 10 : 0 }}>
+                      <label style={S.label}>Notes <span style={{ color: C.muted, fontWeight: "normal" }}>(optional)</span></label>
+                      <input style={S.input} placeholder="e.g. hard, focus on form..." value={slot.notes}
+                        onChange={e => updateSlot(si, { notes: e.target.value })} onKeyDown={e => e.key === "Enter" && addGymSet()} />
+                    </div>
+                  </div>
+                ))}
+                <div style={{ display: "flex", gap: 8, margin: "12px 0" }}>
+                  {gymSlots.length < 3 && (
+                    <button onClick={() => setGymSlots(slots => [...slots, emptySlot()])} style={{
+                      flex: 1, padding: "10px 14px", borderRadius: 10, fontSize: 13, cursor: "pointer",
+                      fontFamily: "'Georgia', serif", background: "transparent", color: C.accent,
+                      border: `1px dashed ${C.accent}`
+                    }}>+ Add superset</button>
                   )}
-                </div>
-                {(gymExercise || showNewExercise) && (
-                  <div style={{ marginBottom: 10 }}>
-                    <label style={S.label}>Muscle Groups</label>
-                    <MuscleGroupPicker selected={gymMuscles} onChange={setGymMuscles} allGroups={allHistoricMuscleGroups} />
-                  </div>
-                )}
-                <div style={{ ...S.inputRow, marginBottom: 10 }}>
-                  <div style={S.inputHalf}>
-                    <label style={S.label}>Reps</label>
-                    <input style={S.input} type="number" placeholder="8" value={gymReps}
-                      onChange={e => setGymReps(e.target.value)} onKeyDown={e => e.key === "Enter" && addGymSet()} />
-                  </div>
-                  <div style={S.inputHalf}>
-                    <label style={S.label}>Weight</label>
-                    <div style={{ position: "relative" }}>
-                      <input style={{ ...S.input, paddingRight: 36 }} type="number" placeholder="80" value={gymWeight}
-                        onChange={e => setGymWeight(e.target.value)} onKeyDown={e => e.key === "Enter" && addGymSet()} />
-                      <span style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", color: C.muted, fontSize: 13 }}>kg</span>
-                    </div>
-                  </div>
-                </div>
-                <div style={{ marginBottom: 12 }}>
-                  <label style={S.label}>Notes <span style={{ color: C.muted, fontWeight: "normal" }}>(optional)</span></label>
-                  <input style={S.input} placeholder="e.g. hard, focus on form..." value={gymNotes}
-                    onChange={e => setGymNotes(e.target.value)} onKeyDown={e => e.key === "Enter" && addGymSet()} />
+                  {gymSlots.length > 1 && (
+                    <button onClick={() => setGymSlots(slots => slots.slice(0, -1))} style={{
+                      flex: 1, padding: "10px 14px", borderRadius: 10, fontSize: 13, cursor: "pointer",
+                      fontFamily: "'Georgia', serif", background: "transparent", color: C.muted,
+                      border: `1px dashed ${C.border}`
+                    }}>− Remove superset</button>
+                  )}
                 </div>
                 <button style={S.btn} onClick={addGymSet}>Log Set</button>
               </div>
@@ -841,7 +873,7 @@ export default function FitnessTracker() {
             </div>
             {allDays.length === 0 ? (
               <div style={{ color: C.muted, fontSize: 14 }}>No data logged yet.</div>
-            ) : allDays.map(date => {
+            ) : allDays.slice(0, 30).map(date => {
               const meals = mealLog[date] || [];
               const wEntry = weightLog[date];
               const gymEntry = gymLog[date];
@@ -876,7 +908,7 @@ export default function FitnessTracker() {
                         {meals.map((m, i) => (
                           <div key={i} style={{ ...S.mealItem, borderBottom: i < meals.length - 1 ? `1px solid ${C.border}` : "none" }}>
                             <div style={S.mealName}>{m.name}</div>
-                            <div style={S.mealRight}><div style={S.mealKcal}>{fmt(m.cal)} Kcal</div><div style={S.mealProt}>{m.prot}g</div></div>
+                            <div><span style={S.mealKcal}>{fmt(m.cal)} Kcal</span><span style={S.mealProt}> · {m.prot}g</span></div>
                           </div>
                         ))}
                       </div>
@@ -891,9 +923,12 @@ export default function FitnessTracker() {
                               {ex.muscleGroups?.length > 0 && <span style={{ fontSize: 11, color: C.muted, fontWeight: "normal", marginLeft: 8 }}>{ex.muscleGroups.join(", ")}</span>}
                             </div>
                             {ex.sets.map((set, si) => (
-                              <div key={si} style={{ fontSize: 12, color: C.muted, paddingLeft: 8, lineHeight: 1.8 }}>
-                                Set {si + 1}: <strong style={{ color: C.text }}>{set.weight}kg × {set.reps}</strong>
-                                {set.notes && <span style={{ fontStyle: "italic" }}> — {set.notes}</span>}
+                              <div key={si} style={{ fontSize: 12, paddingLeft: 8, lineHeight: 1.9 }}>
+                                <span style={{ color: C.muted }}>Set {si + 1}</span>
+                                <span style={{ color: C.muted }}> · </span>
+                                <strong style={{ color: C.accent }}>{set.weight}kg</strong>
+                                <span style={{ color: C.text }}> × {set.reps}</span>
+                                {set.notes && <span style={{ color: C.muted, fontStyle: "italic" }}> — {set.notes}</span>}
                               </div>
                             ))}
                           </div>
