@@ -117,7 +117,7 @@ const S = {
   targetSub: { fontSize: 11, color: C.muted },
   select: { width: "100%", background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 15, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none", appearance: "none", backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a7560' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 14px center" },
   footer: { textAlign: "center", padding: "12px 20px", fontSize: 11, color: C.muted, borderTop: `1px solid ${C.border}` },
-  dateInput: { width: "100%", maxWidth: "100%", minWidth: 0, background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 14, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none" },
+  dateInput: { width: "100%", maxWidth: "100%", minWidth: 0, WebkitAppearance: "none", appearance: "none", background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 14, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none" },
 };
 
 // ─── CONSTANTS ─────────────────────────────────────────────────────────────────
