@@ -79,14 +79,14 @@ const S = {
   headerRight: { background: C.card, borderRadius: 12, padding: "10px 14px", textAlign: "right", minWidth: 80, border: `1px solid ${C.border}` },
   headerNum: { fontSize: 26, fontWeight: "bold", color: C.accent, lineHeight: 1, display: "block" },
   headerLabel: { fontSize: 11, color: C.muted, display: "block" },
-  tabs: { display: "flex", padding: "12px 20px 0", gap: 16, borderBottom: `1px solid ${C.border}`, marginTop: 12, overflowX: "auto" },
-  tab: { fontSize: 14, padding: "0 0 10px", cursor: "pointer", border: "none", background: "none", color: C.muted, borderBottom: "2px solid transparent", fontFamily: "'Georgia', serif", whiteSpace: "nowrap", fontWeight: "600" },
+  tabs: { display: "flex", padding: "12px 20px 0", borderBottom: `1px solid ${C.border}`, marginTop: 12 },
+  tab: { fontSize: 14, padding: "0 0 10px", cursor: "pointer", border: "none", background: "none", color: C.muted, borderBottom: "2px solid transparent", fontFamily: "'Georgia', serif", whiteSpace: "nowrap", fontWeight: "600", flex: 1, textAlign: "center" },
   tabActive: { color: C.text, borderBottom: `2px solid ${C.accent}` },
   body: { flex: 1, overflowY: "auto", overflowX: "hidden", padding: "16px 20px 32px" },
   section: { marginBottom: 20 },
   sectionLabel: { fontSize: 11, letterSpacing: 1.2, color: C.muted, fontWeight: "600", marginBottom: 10, fontFamily: "system-ui, sans-serif" },
   card: { background: C.card, borderRadius: 12, padding: "14px 16px", border: `1px solid ${C.border}`, marginBottom: 10 },
-  input: { width: "100%", background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 15, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none" },
+  input: { width: "100%", background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 16, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none" },
   inputRow: { display: "flex", gap: 10 },
   inputHalf: { flex: 1 },
   label: { fontSize: 13, color: C.muted, marginBottom: 4, display: "block" },
@@ -105,19 +105,19 @@ const S = {
   avgCard: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 10px", textAlign: "center" },
   avgNum: { fontSize: 20, fontWeight: "bold", color: C.accent, display: "block" },
   avgLabel: { fontSize: 11, color: C.muted, marginTop: 2, display: "block" },
-  mealItem: { display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "6px 0" },
-  mealName: { fontSize: 14, flex: 1, paddingRight: 10 },
+  mealItem: { display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "8px 0" },
+  mealName: { fontSize: 15, flex: 1, paddingRight: 10 },
   mealRight: { textAlign: "right" },
-  mealKcal: { fontSize: 14, fontWeight: "bold", color: C.accent },
-  mealProt: { fontSize: 12, color: C.muted },
+  mealKcal: { fontSize: 15, fontWeight: "bold", color: C.accent },
+  mealProt: { fontSize: 13, color: C.muted },
   targetGrid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 },
   targetCard: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: "14px" },
   targetNum: { fontSize: 28, fontWeight: "bold", color: C.accent, lineHeight: 1 },
   targetLabel: { fontSize: 13, color: C.text, marginTop: 4 },
   targetSub: { fontSize: 11, color: C.muted },
-  select: { width: "100%", background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 15, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none", appearance: "none", backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a7560' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 14px center" },
+  select: { width: "100%", background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 16, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none", appearance: "none", backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a7560' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 14px center" },
   footer: { textAlign: "center", padding: "12px 20px", fontSize: 11, color: C.muted, borderTop: `1px solid ${C.border}` },
-  dateInput: { width: "100%", maxWidth: "100%", minWidth: 0, WebkitAppearance: "none", appearance: "none", background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 14, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none" },
+  dateInput: { width: "100%", maxWidth: "100%", minWidth: 0, WebkitAppearance: "none", appearance: "none", background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 16, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none" },
 };
 
 // ─── CONSTANTS ─────────────────────────────────────────────────────────────────
@@ -689,9 +689,9 @@ export default function FitnessTracker() {
             <div style={S.section}>
               <div style={S.sectionLabel}>7-DAY ROLLING AVERAGE</div>
               {rollingAvg ? (
-                <div style={S.card}>
-                  <div style={S.statRow}><span style={S.statLabel}>Calories</span><span style={S.statVal}>{fmt(rollingAvg.avgCal)} Kcal/day</span></div>
-                  <div style={S.statRow}><span style={S.statLabel}>Protein</span><span style={S.statVal}>{fmt(rollingAvg.avgProt)}g/day</span></div>
+                <div style={{ ...S.avgGrid, gridTemplateColumns: "1fr 1fr" }}>
+                  <div style={S.avgCard}><span style={S.avgNum}>{fmt(rollingAvg.avgCal)}</span><span style={S.avgLabel}>Kcal/Day</span></div>
+                  <div style={S.avgCard}><span style={S.avgNum}>{fmt(rollingAvg.avgProt)}g</span><span style={S.avgLabel}>Protein/Day</span></div>
                 </div>
               ) : <div style={{ ...S.card, color: C.muted, fontSize: 14 }}>Appears once 7 complete days prior to today are logged.</div>}
             </div>
