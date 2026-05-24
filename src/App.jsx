@@ -50,6 +50,7 @@ function formatDateLabel(dateStr) {
 function formatDateFull(dateStr) {
   return parseDateStr(dateStr).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
 }
+function fmt(n) { return Number(n).toLocaleString(); }
 
 // ─── MACRO CALC ────────────────────────────────────────────────────────────────
 function calcTargets(weight, bf, goalPct, activity, height) {
@@ -71,17 +72,17 @@ const C = {
 };
 
 const S = {
-  app: { fontFamily: "'Georgia', serif", background: C.bg, minHeight: "100vh", color: C.text, maxWidth: 430, margin: "0 auto", display: "flex", flexDirection: "column" },
+  app: { fontFamily: "'Georgia', serif", background: C.bg, minHeight: "100vh", color: C.text, width: "100%", maxWidth: 430, margin: "0 auto", display: "flex", flexDirection: "column" },
   header: { padding: "16px 20px 0", display: "flex", justifyContent: "space-between", alignItems: "flex-start" },
-  title: { fontSize: 28, fontWeight: "bold", margin: 0, letterSpacing: -0.5 },
+  title: { fontSize: 28, fontWeight: "bold", margin: 0, letterSpacing: -0.5, color: C.accent, fontFamily: "'Georgia', serif" },
   subtitle: { fontSize: 13, color: C.muted, marginTop: 2 },
   headerRight: { background: C.card, borderRadius: 12, padding: "10px 14px", textAlign: "right", minWidth: 80, border: `1px solid ${C.border}` },
   headerNum: { fontSize: 26, fontWeight: "bold", color: C.accent, lineHeight: 1, display: "block" },
   headerLabel: { fontSize: 11, color: C.muted, display: "block" },
   tabs: { display: "flex", padding: "12px 20px 0", gap: 16, borderBottom: `1px solid ${C.border}`, marginTop: 12, overflowX: "auto" },
-  tab: { fontSize: 14, padding: "0 0 10px", cursor: "pointer", border: "none", background: "none", color: C.muted, borderBottom: "2px solid transparent", fontFamily: "'Georgia', serif", whiteSpace: "nowrap" },
-  tabActive: { color: C.text, borderBottom: `2px solid ${C.accent}`, fontWeight: "600" },
-  body: { flex: 1, overflowY: "auto", padding: "16px 20px 32px" },
+  tab: { fontSize: 14, padding: "0 0 10px", cursor: "pointer", border: "none", background: "none", color: C.muted, borderBottom: "2px solid transparent", fontFamily: "'Georgia', serif", whiteSpace: "nowrap", fontWeight: "600" },
+  tabActive: { color: C.text, borderBottom: `2px solid ${C.accent}` },
+  body: { flex: 1, overflowY: "auto", overflowX: "hidden", padding: "16px 20px 32px" },
   section: { marginBottom: 20 },
   sectionLabel: { fontSize: 11, letterSpacing: 1.2, color: C.muted, fontWeight: "600", marginBottom: 10, fontFamily: "system-ui, sans-serif" },
   card: { background: C.card, borderRadius: 12, padding: "14px 16px", border: `1px solid ${C.border}`, marginBottom: 10 },
@@ -116,7 +117,7 @@ const S = {
   targetSub: { fontSize: 11, color: C.muted },
   select: { width: "100%", background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 15, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none", appearance: "none", backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a7560' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 14px center" },
   footer: { textAlign: "center", padding: "12px 20px", fontSize: 11, color: C.muted, borderTop: `1px solid ${C.border}` },
-  dateInput: { width: "100%", background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 15, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none" },
+  dateInput: { width: "100%", maxWidth: "100%", minWidth: 0, WebkitAppearance: "none", appearance: "none", background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 14, fontFamily: "'Georgia', serif", color: C.text, boxSizing: "border-box", outline: "none" },
 };
 
 // ─── CONSTANTS ─────────────────────────────────────────────────────────────────
@@ -564,9 +565,9 @@ export default function FitnessTracker() {
           )}
         </div>
         <div style={S.headerRight}>
-          <span style={S.headerNum}>{activeCal}</span>
+          <span style={S.headerNum}>{fmt(activeCal)}</span>
           <span style={S.headerLabel}>Kcal {dateLabel}</span>
-          <span style={{ ...S.headerNum, marginTop: 6 }}>{activeProt}g</span>
+          <span style={{ ...S.headerNum, marginTop: 6 }}>{fmt(activeProt)}g</span>
           <span style={S.headerLabel}>Protein</span>
         </div>
       </div>
@@ -635,9 +636,9 @@ export default function FitnessTracker() {
               <div style={S.section}>
                 <div style={S.sectionLabel}>{isToday ? "TODAY'S TARGETS" : `${dateLabel.toUpperCase()}'S TARGETS`}</div>
                 <div style={S.targetGrid}>
-                  <div style={S.targetCard}><div style={S.targetNum}>{targets.targetCal}</div><div style={S.targetLabel}>Target Calories</div><div style={S.targetSub}>Kcal / Day</div></div>
-                  <div style={S.targetCard}><div style={S.targetNum}>{targets.targetProt}g</div><div style={S.targetLabel}>Target Protein</div><div style={S.targetSub}>Per Day</div></div>
-                  <div style={S.targetCard}><div style={S.targetNum}>{targets.tdee}</div><div style={S.targetLabel}>TDEE</div><div style={S.targetSub}>Kcal Maintenance</div></div>
+                  <div style={S.targetCard}><div style={S.targetNum}>{fmt(targets.targetCal)}</div><div style={S.targetLabel}>Target Calories</div><div style={S.targetSub}>Kcal / Day</div></div>
+                  <div style={S.targetCard}><div style={S.targetNum}>{fmt(targets.targetProt)}g</div><div style={S.targetLabel}>Target Protein</div><div style={S.targetSub}>Per Day</div></div>
+                  <div style={S.targetCard}><div style={S.targetNum}>{fmt(targets.tdee)}</div><div style={S.targetLabel}>TDEE</div><div style={S.targetSub}>Kcal Maintenance</div></div>
                   <div style={S.targetCard}><div style={S.targetNum}>{targets.lean} kg</div><div style={S.targetLabel}>Lean Mass</div><div style={S.targetSub}>Current Estimate</div></div>
                 </div>
               </div>
@@ -651,7 +652,7 @@ export default function FitnessTracker() {
             <div style={S.section}>
               <div style={S.sectionLabel}>ADD MEAL</div>
               <div style={S.inputRow}>
-                <input style={{ ...S.input, flex: 1 }} placeholder="Meal name, Calories, Protein(g)" value={mealInput}
+                <input style={{ ...S.input, flex: 1, minWidth: 0 }} placeholder="Meal name, Calories, Protein(g)" value={mealInput}
                   onChange={e => setMealInput(e.target.value)} onKeyDown={e => e.key === "Enter" && addMeal()} />
                 <button style={S.btnSmall} onClick={addMeal}>Add</button>
               </div>
@@ -665,8 +666,8 @@ export default function FitnessTracker() {
                   <div style={S.statRow}>
                     <span style={S.statLabel}>Calories</span>
                     <span>
-                      <span style={{ ...S.statVal, color: activeCal > targets.targetCal ? C.red : C.text }}>{activeCal} Kcal</span>
-                      <span style={S.statTarget}> / {targets.targetCal} Kcal</span>
+                      <span style={{ ...S.statVal, color: activeCal > targets.targetCal ? C.red : C.text }}>{fmt(activeCal)} Kcal</span>
+                      <span style={S.statTarget}> / {fmt(targets.targetCal)} Kcal</span>
                     </span>
                   </div>
                   <div style={S.progressBar}>
@@ -675,8 +676,8 @@ export default function FitnessTracker() {
                   <div style={{ ...S.statRow, marginTop: 12 }}>
                     <span style={S.statLabel}>Protein</span>
                     <span>
-                      <span style={{ ...S.statVal, color: activeProt >= targets.targetProt ? C.accent : C.text }}>{activeProt}g</span>
-                      <span style={S.statTarget}> / {targets.targetProt}g</span>
+                      <span style={{ ...S.statVal, color: activeProt >= targets.targetProt ? C.accent : C.text }}>{fmt(activeProt)}g</span>
+                      <span style={S.statTarget}> / {fmt(targets.targetProt)}g</span>
                     </span>
                   </div>
                   <div style={S.progressBar}>
@@ -689,8 +690,8 @@ export default function FitnessTracker() {
               <div style={S.sectionLabel}>7-DAY ROLLING AVERAGE</div>
               {rollingAvg ? (
                 <div style={S.card}>
-                  <div style={S.statRow}><span style={S.statLabel}>Calories</span><span style={S.statVal}>{rollingAvg.avgCal} Kcal/day</span></div>
-                  <div style={S.statRow}><span style={S.statLabel}>Protein</span><span style={S.statVal}>{rollingAvg.avgProt}g/day</span></div>
+                  <div style={S.statRow}><span style={S.statLabel}>Calories</span><span style={S.statVal}>{fmt(rollingAvg.avgCal)} Kcal/day</span></div>
+                  <div style={S.statRow}><span style={S.statLabel}>Protein</span><span style={S.statVal}>{fmt(rollingAvg.avgProt)}g/day</span></div>
                 </div>
               ) : <div style={{ ...S.card, color: C.muted, fontSize: 14 }}>Appears once 7 complete days prior to today are logged.</div>}
             </div>
@@ -698,9 +699,9 @@ export default function FitnessTracker() {
               <div style={S.sectionLabel}>WEEK TO DATE AVERAGE</div>
               {weekToDate ? (
                 <div style={S.avgGrid}>
-                  <div style={S.avgCard}><span style={S.avgNum}>{weekToDate.avgCal}</span><span style={S.avgLabel}>Kcal/Day</span></div>
-                  <div style={S.avgCard}><span style={S.avgNum}>{weekToDate.avgProt}g</span><span style={S.avgLabel}>Protein/Day</span></div>
-                  {weekToDate.avgTarget && <div style={S.avgCard}><span style={S.avgNum}>{weekToDate.avgTarget}</span><span style={S.avgLabel}>Kcal Target</span></div>}
+                  <div style={S.avgCard}><span style={S.avgNum}>{fmt(weekToDate.avgCal)}</span><span style={S.avgLabel}>Kcal/Day</span></div>
+                  <div style={S.avgCard}><span style={S.avgNum}>{fmt(weekToDate.avgProt)}g</span><span style={S.avgLabel}>Protein/Day</span></div>
+                  {weekToDate.avgTarget && <div style={S.avgCard}><span style={S.avgNum}>{fmt(weekToDate.avgTarget)}</span><span style={S.avgLabel}>Kcal Target</span></div>}
                   <div style={{ gridColumn: "1 / -1" }}><span style={{ ...S.hint, display: "block", textAlign: "center" }}>Mon to yesterday · {weekToDate.days} day{weekToDate.days !== 1 ? "s" : ""}</span></div>
                 </div>
               ) : <div style={{ ...S.card, color: C.muted, fontSize: 14 }}>Appears once meals are logged from earlier this week.</div>}
@@ -714,7 +715,7 @@ export default function FitnessTracker() {
                   {activeMeals.map((m, i) => (
                     <div key={i} style={{ ...S.mealItem, borderBottom: i < activeMeals.length - 1 ? `1px solid ${C.border}` : "none" }}>
                       <div style={S.mealName}>{m.name}</div>
-                      <div style={S.mealRight}><div style={S.mealKcal}>{m.cal} Kcal</div><div style={S.mealProt}>{m.prot}g</div></div>
+                      <div style={S.mealRight}><div style={S.mealKcal}>{fmt(m.cal)} Kcal</div><div style={S.mealProt}>{m.prot}g</div></div>
                     </div>
                   ))}
                 </div>
@@ -748,7 +749,7 @@ export default function FitnessTracker() {
                   <label style={S.label}>Exercise</label>
                   {!showNewExercise ? (
                     <div style={{ display: "flex", gap: 8 }}>
-                      <select style={{ ...S.select, flex: 1 }} value={gymExercise} onChange={e => handleExerciseChange(e.target.value, gymLog)}>
+                      <select style={{ ...S.select, flex: 1, minWidth: 0 }} value={gymExercise} onChange={e => handleExerciseChange(e.target.value, gymLog)}>
                         <option value="">Select exercise...</option>
                         {allExercises.map(ex => <option key={ex} value={ex}>{ex}</option>)}
                       </select>
@@ -832,9 +833,9 @@ export default function FitnessTracker() {
             <div style={S.section}>
               <div style={S.sectionLabel}>DATA</div>
               <div style={{ display: "flex", gap: 10 }}>
-                <button style={S.btnOutline} onClick={() => fileInputRef.current?.click()}>⬆ Upload</button>
+                <button style={{ ...S.btnOutline, flex: 1 }} onClick={() => fileInputRef.current?.click()}>⬆ Upload</button>
                 <input ref={fileInputRef} type="file" accept=".json" style={{ display: "none" }} onChange={handleUpload} />
-                <button style={S.btnOutline} onClick={handleDownload}>⬇ Download</button>
+                <button style={{ ...S.btnOutline, flex: 1 }} onClick={handleDownload}>⬇ Download</button>
               </div>
               {uploadMsg && <div style={{ ...S.hint, color: uploadMsg.includes("success") ? C.green : C.red, marginTop: 8 }}>{uploadMsg}</div>}
             </div>
@@ -855,7 +856,7 @@ export default function FitnessTracker() {
                       {hasGym && <span style={{ color: C.accent, marginRight: 6 }}>★</span>}
                       {formatDateFull(date)}
                     </div>
-                    {meals.length > 0 && <div style={{ fontSize: 13, color: C.muted }}>{dayKcal} Kcal · {dayProt}g</div>}
+                    {meals.length > 0 && <div style={{ fontSize: 13, color: C.muted }}>{fmt(dayKcal)} Kcal · {dayProt}g</div>}
                   </div>
                   <div style={{ height: 3, background: C.accent, borderRadius: 2, marginBottom: 10 }} />
                   <div style={S.card}>
@@ -866,7 +867,7 @@ export default function FitnessTracker() {
                           <span style={{ fontSize: 13 }}><span style={{ color: C.muted }}>Weight </span><strong>{wEntry.weight} kg</strong></span>
                           <span style={{ fontSize: 13 }}><span style={{ color: C.muted }}>BF </span><strong>{wEntry.bf}%</strong></span>
                           <span style={{ fontSize: 13 }}><span style={{ color: C.muted }}>Goal </span><strong>{wEntry.goalPct > 0 ? "+" : ""}{wEntry.goalPct}%</strong></span>
-                          {t && <span style={{ fontSize: 13 }}><span style={{ color: C.muted }}>Target </span><strong>{t.targetCal} Kcal · {t.targetProt}g</strong></span>}
+                          {t && <span style={{ fontSize: 13 }}><span style={{ color: C.muted }}>Target </span><strong>{fmt(t.targetCal)} Kcal · {t.targetProt}g</strong></span>}
                         </div>
                       </div>
                     )}
@@ -875,7 +876,7 @@ export default function FitnessTracker() {
                         {meals.map((m, i) => (
                           <div key={i} style={{ ...S.mealItem, borderBottom: i < meals.length - 1 ? `1px solid ${C.border}` : "none" }}>
                             <div style={S.mealName}>{m.name}</div>
-                            <div style={S.mealRight}><div style={S.mealKcal}>{m.cal} Kcal</div><div style={S.mealProt}>{m.prot}g</div></div>
+                            <div style={S.mealRight}><div style={S.mealKcal}>{fmt(m.cal)} Kcal</div><div style={S.mealProt}>{m.prot}g</div></div>
                           </div>
                         ))}
                       </div>
