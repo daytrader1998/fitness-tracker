@@ -924,12 +924,12 @@ export default function FitnessTracker() {
                         <div style={{ fontSize: 11, letterSpacing: 1, color: C.muted, fontWeight: 600, marginBottom: 8, fontFamily: "system-ui" }}>GYM SESSION</div>
                         {gymEntry.exercises.map((ex, ei) => (
                           <div key={ei} style={{ marginBottom: ei < gymEntry.exercises.length - 1 ? 10 : 0 }}>
-                            <div style={{ fontSize: 13, fontWeight: "bold", marginBottom: 4 }}>
-                              {ex.name}
-                              {ex.muscleGroups?.length > 0 && <span style={{ fontSize: 11, color: C.muted, fontWeight: "normal", marginLeft: 8 }}>{ex.muscleGroups.join(", ")}</span>}
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 4 }}>
+                              <div style={{ fontSize: 13, fontWeight: "bold" }}>{ex.name}</div>
+                              {ex.muscleGroups?.length > 0 && <div style={{ fontSize: 11, color: C.muted, textAlign: "right" }}>{ex.muscleGroups.join(", ")}</div>}
                             </div>
                             {ex.sets.map((set, si) => (
-                              <div key={si} style={{ fontSize: 12, paddingLeft: 8, lineHeight: 1.9 }}>
+                              <div key={si} style={{ fontSize: 12, lineHeight: 1.9 }}>
                                 <span style={{ color: C.muted }}>Set {si + 1}: </span>
                                 <strong>{set.weight}kg × {set.reps}</strong>
                                 {set.notes && <span style={{ color: C.muted, fontStyle: "italic" }}> — {set.notes}</span>}
