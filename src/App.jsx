@@ -808,14 +808,14 @@ export default function FitnessTracker() {
                 <div style={{ display: "flex", gap: 8, margin: "12px 0" }}>
                   {gymSlots.length < 3 && (
                     <button onClick={() => setGymSlots(slots => [...slots, emptySlot()])} style={{
-                      padding: "5px 12px", borderRadius: 20, fontSize: 12, cursor: "pointer",
+                      flex: 1, padding: "10px 14px", borderRadius: 10, fontSize: 13, cursor: "pointer",
                       fontFamily: "'Georgia', serif", background: "transparent", color: C.accent,
                       border: `1px dashed ${C.accent}`
                     }}>+ Add superset</button>
                   )}
                   {gymSlots.length > 1 && (
                     <button onClick={() => setGymSlots(slots => slots.slice(0, -1))} style={{
-                      padding: "5px 12px", borderRadius: 20, fontSize: 12, cursor: "pointer",
+                      flex: 1, padding: "10px 14px", borderRadius: 10, fontSize: 13, cursor: "pointer",
                       fontFamily: "'Georgia', serif", background: "transparent", color: C.muted,
                       border: `1px dashed ${C.border}`
                     }}>− Remove superset</button>
