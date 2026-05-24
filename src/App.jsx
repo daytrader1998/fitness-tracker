@@ -105,10 +105,9 @@ const S = {
   avgCard: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 10px", textAlign: "center" },
   avgNum: { fontSize: 20, fontWeight: "bold", color: C.accent, display: "block" },
   avgLabel: { fontSize: 11, color: C.muted, marginTop: 2, display: "block" },
-  mealItem: { display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "8px 0" },
-  mealName: { fontSize: 15, flex: 1, paddingRight: 10 },
-  mealRight: { textAlign: "right" },
-  mealKcal: { fontSize: 15, fontWeight: "bold", color: C.accent },
+  mealItem: { padding: "9px 0" },
+  mealName: { fontSize: 15, fontWeight: "600", color: C.text, marginBottom: 3 },
+  mealKcal: { fontSize: 13, fontWeight: "bold", color: C.accent },
   mealProt: { fontSize: 13, color: C.muted },
   targetGrid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 },
   targetCard: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: "14px" },
@@ -504,10 +503,16 @@ export default function FitnessTracker() {
       if (mealLog[ds]) days.push(ds);
     }
     if (days.length < 7) return null;
-    return {
-      avgCal: Math.round(days.reduce((s, d) => s + (mealLog[d] || []).reduce((a, m) => a + m.cal, 0), 0) / 7),
-      avgProt: Math.round(days.reduce((s, d) => s + (mealLog[d] || []).reduce((a, m) => a + m.prot, 0), 0) / 7),
-    };
+    const avgCal = Math.round(days.reduce((s, d) => s + (mealLog[d] || []).reduce((a, m) => a + m.cal, 0), 0) / 7);
+    const avgProt = Math.round(days.reduce((s, d) => s + (mealLog[d] || []).reduce((a, m) => a + m.prot, 0), 0) / 7);
+    const ts = days.map(d => {
+      const prior = Object.keys(weightLog).filter(x => x <= d).sort();
+      if (!prior.length) return null;
+      const e = weightLog[prior[prior.length - 1]];
+      return calcTargets(e.weight, e.bf, e.goalPct, e.activity, e.height)?.targetCal;
+    }).filter(Boolean);
+    const avgTarget = ts.length ? Math.round(ts.reduce((a, b) => a + b, 0) / ts.length) : null;
+    return { avgCal, avgProt, avgTarget };
   })();
 
   const weekToDate = (() => {
@@ -689,9 +694,10 @@ export default function FitnessTracker() {
             <div style={S.section}>
               <div style={S.sectionLabel}>7-DAY ROLLING AVERAGE</div>
               {rollingAvg ? (
-                <div style={{ ...S.avgGrid, gridTemplateColumns: "1fr 1fr" }}>
+                <div style={S.avgGrid}>
                   <div style={S.avgCard}><span style={S.avgNum}>{fmt(rollingAvg.avgCal)}</span><span style={S.avgLabel}>Kcal/Day</span></div>
                   <div style={S.avgCard}><span style={S.avgNum}>{fmt(rollingAvg.avgProt)}g</span><span style={S.avgLabel}>Protein/Day</span></div>
+                  {rollingAvg.avgTarget && <div style={S.avgCard}><span style={S.avgNum}>{fmt(rollingAvg.avgTarget)}</span><span style={S.avgLabel}>Kcal Target</span></div>}
                 </div>
               ) : <div style={{ ...S.card, color: C.muted, fontSize: 14 }}>Appears once 7 complete days prior to today are logged.</div>}
             </div>
@@ -715,7 +721,7 @@ export default function FitnessTracker() {
                   {activeMeals.map((m, i) => (
                     <div key={i} style={{ ...S.mealItem, borderBottom: i < activeMeals.length - 1 ? `1px solid ${C.border}` : "none" }}>
                       <div style={S.mealName}>{m.name}</div>
-                      <div style={S.mealRight}><div style={S.mealKcal}>{fmt(m.cal)} Kcal</div><div style={S.mealProt}>{m.prot}g</div></div>
+                      <div><span style={S.mealKcal}>{fmt(m.cal)} Kcal</span><span style={S.mealProt}> · {m.prot}g</span></div>
                     </div>
                   ))}
                 </div>
@@ -876,7 +882,7 @@ export default function FitnessTracker() {
                         {meals.map((m, i) => (
                           <div key={i} style={{ ...S.mealItem, borderBottom: i < meals.length - 1 ? `1px solid ${C.border}` : "none" }}>
                             <div style={S.mealName}>{m.name}</div>
-                            <div style={S.mealRight}><div style={S.mealKcal}>{fmt(m.cal)} Kcal</div><div style={S.mealProt}>{m.prot}g</div></div>
+                            <div><span style={S.mealKcal}>{fmt(m.cal)} Kcal</span><span style={S.mealProt}> · {m.prot}g</span></div>
                           </div>
                         ))}
                       </div>
@@ -891,9 +897,12 @@ export default function FitnessTracker() {
                               {ex.muscleGroups?.length > 0 && <span style={{ fontSize: 11, color: C.muted, fontWeight: "normal", marginLeft: 8 }}>{ex.muscleGroups.join(", ")}</span>}
                             </div>
                             {ex.sets.map((set, si) => (
-                              <div key={si} style={{ fontSize: 12, color: C.muted, paddingLeft: 8, lineHeight: 1.8 }}>
-                                Set {si + 1}: <strong style={{ color: C.text }}>{set.weight}kg × {set.reps}</strong>
-                                {set.notes && <span style={{ fontStyle: "italic" }}> — {set.notes}</span>}
+                              <div key={si} style={{ fontSize: 12, paddingLeft: 8, lineHeight: 1.9 }}>
+                                <span style={{ color: C.muted }}>Set {si + 1}</span>
+                                <span style={{ color: C.muted }}> · </span>
+                                <strong style={{ color: C.accent }}>{set.weight}kg</strong>
+                                <span style={{ color: C.text }}> × {set.reps}</span>
+                                {set.notes && <span style={{ color: C.muted, fontStyle: "italic" }}> — {set.notes}</span>}
                               </div>
                             ))}
                           </div>
