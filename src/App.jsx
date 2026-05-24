@@ -134,6 +134,9 @@ const MUSCLE_GROUP_OPTIONS = [
   "Lats", "Quads", "Shoulders", "Traps", "Triceps"
 ];
 
+// ─── GYM SLOT HELPERS ─────────────────────────────────────────────────────────
+function emptySlot() { return { exercise: "", muscles: [], reps: "", weight: "", notes: "", showNew: false, newName: "" }; }
+
 // ─── MUSCLE GROUP PICKER ───────────────────────────────────────────────────────
 function MuscleGroupPicker({ selected, onChange, allGroups }) {
   const [showNew, setShowNew] = useState(false);
@@ -298,13 +301,7 @@ export default function FitnessTracker() {
   const saveTimerRef = useRef(null);
 
   const [gymSessionActive, setGymSessionActive] = useState(false);
-  const [gymExercise, setGymExercise] = useState("");
-  const [gymMuscles, setGymMuscles] = useState([]);
-  const [gymReps, setGymReps] = useState("");
-  const [gymWeight, setGymWeight] = useState("");
-  const [gymNotes, setGymNotes] = useState("");
-  const [showNewExercise, setShowNewExercise] = useState(false);
-  const [newExerciseName, setNewExerciseName] = useState("");
+  const [gymSlots, setGymSlots] = useState([emptySlot()]);
 
   // ── Load from Supabase on mount ──
   useEffect(() => {
@@ -419,39 +416,43 @@ export default function FitnessTracker() {
     saveWeightLog({ ...weightLog, [activeDate]: { weight, bf, goalPct, activity: parseFloat(form.activity), height } });
   }
 
-  function handleExerciseChange(name, currentGymLog) {
-    setGymExercise(name);
+  function updateSlot(idx, updates) {
+    setGymSlots(slots => slots.map((s, i) => i === idx ? { ...s, ...updates } : s));
+  }
+
+  function handleSlotExerciseChange(idx, name, currentGymLog) {
     const allEntries = Object.values(currentGymLog).flatMap(day => day.exercises || []);
     const match = allEntries.filter(e => e.name === name).pop();
-    if (match) setGymMuscles(match.muscleGroups || []);
-    else setGymMuscles([]);
+    const muscles = match ? (match.muscleGroups || []) : [];
     const lastSet = getLastSetForExercise(name, currentGymLog);
-    if (lastSet) { setGymReps(String(lastSet.reps)); setGymWeight(String(lastSet.weight)); }
-    else { setGymReps(""); setGymWeight(""); }
-    setGymNotes("");
+    updateSlot(idx, { exercise: name, muscles, reps: lastSet ? String(lastSet.reps) : "", weight: lastSet ? String(lastSet.weight) : "", notes: "" });
   }
 
   function addGymSet() {
-    const exerciseName = showNewExercise ? newExerciseName.trim() : gymExercise;
-    if (!exerciseName || !gymReps || !gymWeight) return;
-    const reps = parseInt(gymReps);
-    const weight = parseFloat(gymWeight);
-    if (isNaN(reps) || isNaN(weight)) return;
-    const newSet = { reps, weight, notes: gymNotes.trim() };
     const currentDay = gymLog[activeDate] || { exercises: [] };
-    const exercises = [...(currentDay.exercises || [])];
-    const existingIdx = exercises.findIndex(e => e.name === exerciseName);
-    if (existingIdx >= 0) {
-      exercises[existingIdx] = { ...exercises[existingIdx], sets: [...exercises[existingIdx].sets, newSet] };
-    } else {
-      exercises.push({ name: exerciseName, muscleGroups: gymMuscles, sets: [newSet] });
+    let exercises = [...(currentDay.exercises || [])];
+    let anyLogged = false;
+    for (const slot of gymSlots) {
+      const exerciseName = slot.showNew ? slot.newName.trim() : slot.exercise;
+      if (!exerciseName || !slot.reps || !slot.weight) continue;
+      const reps = parseInt(slot.reps);
+      const weight = parseFloat(slot.weight);
+      if (isNaN(reps) || isNaN(weight)) continue;
+      const newSet = { reps, weight, notes: slot.notes.trim() };
+      const existingIdx = exercises.findIndex(e => e.name === exerciseName);
+      if (existingIdx >= 0) {
+        exercises[existingIdx] = { ...exercises[existingIdx], sets: [...exercises[existingIdx].sets, newSet] };
+      } else {
+        exercises.push({ name: exerciseName, muscleGroups: slot.muscles, sets: [newSet] });
+      }
+      anyLogged = true;
     }
-    const newGymLog = { ...gymLog, [activeDate]: { exercises } };
-    saveGymLog(newGymLog);
-    setGymReps(String(reps));
-    setGymWeight(String(weight));
-    setGymNotes("");
-    if (showNewExercise) { setGymExercise(exerciseName); setShowNewExercise(false); setNewExerciseName(""); }
+    if (!anyLogged) return;
+    saveGymLog({ ...gymLog, [activeDate]: { exercises } });
+    setGymSlots(slots => slots.map(slot => {
+      const resolvedName = slot.showNew ? slot.newName.trim() : slot.exercise;
+      return { ...slot, exercise: resolvedName || slot.exercise, showNew: false, newName: "", notes: "" };
+    }));
   }
 
   // ── Upload JSON backup ──
@@ -738,9 +739,7 @@ export default function FitnessTracker() {
               <button
                 style={{ ...S.btn, background: gymSessionActive ? "transparent" : C.accent, color: gymSessionActive ? C.accent : "#fff", border: gymSessionActive ? `1px solid ${C.accent}` : "none" }}
                 onClick={() => {
-                  if (gymSessionActive) {
-                    setGymExercise(""); setGymMuscles([]); setGymReps(""); setGymWeight(""); setGymNotes(""); setShowNewExercise(false); setNewExerciseName("");
-                  }
+                  if (gymSessionActive) setGymSlots([emptySlot()]);
                   setGymSessionActive(a => !a);
                 }}
               >
@@ -751,49 +750,76 @@ export default function FitnessTracker() {
             {gymSessionActive && (
               <div style={S.section}>
                 <div style={S.sectionLabel}>LOG A SET</div>
-                <div style={{ marginBottom: 10 }}>
-                  <label style={S.label}>Exercise</label>
-                  {!showNewExercise ? (
-                    <div style={{ display: "flex", gap: 8 }}>
-                      <select style={{ ...S.select, flex: 1, minWidth: 0 }} value={gymExercise} onChange={e => handleExerciseChange(e.target.value, gymLog)}>
-                        <option value="">Select exercise...</option>
-                        {allExercises.map(ex => <option key={ex} value={ex}>{ex}</option>)}
-                      </select>
-                      <button style={S.btnSmall} onClick={() => { setShowNewExercise(true); setGymExercise(""); setGymMuscles([]); setGymReps(""); setGymWeight(""); }}>+ New</button>
+                {gymSlots.map((slot, si) => (
+                  <div key={si}>
+                    {si > 0 && (
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "14px 0 12px" }}>
+                        <div style={{ flex: 1, height: 1, background: C.border }} />
+                        <span style={{ fontSize: 11, color: C.muted, letterSpacing: 0.8, fontFamily: "system-ui" }}>SUPERSET {si + 1}</span>
+                        <div style={{ flex: 1, height: 1, background: C.border }} />
+                      </div>
+                    )}
+                    <div style={{ marginBottom: 10 }}>
+                      <label style={S.label}>Exercise</label>
+                      {!slot.showNew ? (
+                        <div style={{ display: "flex", gap: 8 }}>
+                          <select style={{ ...S.select, flex: 1, minWidth: 0 }} value={slot.exercise} onChange={e => handleSlotExerciseChange(si, e.target.value, gymLog)}>
+                            <option value="">Select exercise...</option>
+                            {allExercises.map(ex => <option key={ex} value={ex}>{ex}</option>)}
+                          </select>
+                          <button style={S.btnSmall} onClick={() => updateSlot(si, { showNew: true, exercise: "", muscles: [], reps: "", weight: "" })}>+ New</button>
+                        </div>
+                      ) : (
+                        <div style={{ display: "flex", gap: 8 }}>
+                          <input style={{ ...S.input, flex: 1 }} placeholder="Exercise name..." value={slot.newName}
+                            onChange={e => updateSlot(si, { newName: e.target.value })} autoFocus />
+                          <button style={S.btnOutlineSmall} onClick={() => updateSlot(si, { showNew: false, newName: "" })}>Cancel</button>
+                        </div>
+                      )}
                     </div>
-                  ) : (
-                    <div style={{ display: "flex", gap: 8 }}>
-                      <input style={{ ...S.input, flex: 1 }} placeholder="Exercise name..." value={newExerciseName}
-                        onChange={e => setNewExerciseName(e.target.value)} autoFocus />
-                      <button style={S.btnOutlineSmall} onClick={() => { setShowNewExercise(false); setNewExerciseName(""); }}>Cancel</button>
+                    {(slot.exercise || slot.showNew) && (
+                      <div style={{ marginBottom: 10 }}>
+                        <label style={S.label}>Muscle Groups</label>
+                        <MuscleGroupPicker selected={slot.muscles} onChange={muscles => updateSlot(si, { muscles })} allGroups={allHistoricMuscleGroups} />
+                      </div>
+                    )}
+                    <div style={{ ...S.inputRow, marginBottom: 10 }}>
+                      <div style={S.inputHalf}>
+                        <label style={S.label}>Reps</label>
+                        <input style={S.input} type="number" placeholder="8" value={slot.reps}
+                          onChange={e => updateSlot(si, { reps: e.target.value })} onKeyDown={e => e.key === "Enter" && addGymSet()} />
+                      </div>
+                      <div style={S.inputHalf}>
+                        <label style={S.label}>Weight</label>
+                        <div style={{ position: "relative" }}>
+                          <input style={{ ...S.input, paddingRight: 36 }} type="number" placeholder="80" value={slot.weight}
+                            onChange={e => updateSlot(si, { weight: e.target.value })} onKeyDown={e => e.key === "Enter" && addGymSet()} />
+                          <span style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", color: C.muted, fontSize: 13 }}>kg</span>
+                        </div>
+                      </div>
                     </div>
+                    <div style={{ marginBottom: si === gymSlots.length - 1 ? 10 : 0 }}>
+                      <label style={S.label}>Notes <span style={{ color: C.muted, fontWeight: "normal" }}>(optional)</span></label>
+                      <input style={S.input} placeholder="e.g. hard, focus on form..." value={slot.notes}
+                        onChange={e => updateSlot(si, { notes: e.target.value })} onKeyDown={e => e.key === "Enter" && addGymSet()} />
+                    </div>
+                  </div>
+                ))}
+                <div style={{ display: "flex", gap: 8, margin: "12px 0" }}>
+                  {gymSlots.length < 3 && (
+                    <button onClick={() => setGymSlots(slots => [...slots, emptySlot()])} style={{
+                      padding: "5px 12px", borderRadius: 20, fontSize: 12, cursor: "pointer",
+                      fontFamily: "'Georgia', serif", background: "transparent", color: C.accent,
+                      border: `1px dashed ${C.accent}`
+                    }}>+ Add superset</button>
                   )}
-                </div>
-                {(gymExercise || showNewExercise) && (
-                  <div style={{ marginBottom: 10 }}>
-                    <label style={S.label}>Muscle Groups</label>
-                    <MuscleGroupPicker selected={gymMuscles} onChange={setGymMuscles} allGroups={allHistoricMuscleGroups} />
-                  </div>
-                )}
-                <div style={{ ...S.inputRow, marginBottom: 10 }}>
-                  <div style={S.inputHalf}>
-                    <label style={S.label}>Reps</label>
-                    <input style={S.input} type="number" placeholder="8" value={gymReps}
-                      onChange={e => setGymReps(e.target.value)} onKeyDown={e => e.key === "Enter" && addGymSet()} />
-                  </div>
-                  <div style={S.inputHalf}>
-                    <label style={S.label}>Weight</label>
-                    <div style={{ position: "relative" }}>
-                      <input style={{ ...S.input, paddingRight: 36 }} type="number" placeholder="80" value={gymWeight}
-                        onChange={e => setGymWeight(e.target.value)} onKeyDown={e => e.key === "Enter" && addGymSet()} />
-                      <span style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", color: C.muted, fontSize: 13 }}>kg</span>
-                    </div>
-                  </div>
-                </div>
-                <div style={{ marginBottom: 12 }}>
-                  <label style={S.label}>Notes <span style={{ color: C.muted, fontWeight: "normal" }}>(optional)</span></label>
-                  <input style={S.input} placeholder="e.g. hard, focus on form..." value={gymNotes}
-                    onChange={e => setGymNotes(e.target.value)} onKeyDown={e => e.key === "Enter" && addGymSet()} />
+                  {gymSlots.length > 1 && (
+                    <button onClick={() => setGymSlots(slots => slots.slice(0, -1))} style={{
+                      padding: "5px 12px", borderRadius: 20, fontSize: 12, cursor: "pointer",
+                      fontFamily: "'Georgia', serif", background: "transparent", color: C.muted,
+                      border: `1px dashed ${C.border}`
+                    }}>− Remove superset</button>
+                  )}
                 </div>
                 <button style={S.btn} onClick={addGymSet}>Log Set</button>
               </div>
