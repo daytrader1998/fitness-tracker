@@ -72,9 +72,9 @@ const C = {
 };
 
 const S = {
-  app: { fontFamily: "'Georgia', serif", background: C.bg, minHeight: "100vh", color: C.text, width: "100%", maxWidth: 430, margin: "0 auto", display: "flex", flexDirection: "column" },
+  app: { fontFamily: "'Georgia', serif", background: C.bg, minHeight: "100vh", color: C.text, width: "100%", maxWidth: 430, margin: "0 auto", display: "flex", flexDirection: "column", textAlign: "left" },
   header: { padding: "16px 20px 0", display: "flex", justifyContent: "space-between", alignItems: "flex-start" },
-  title: { fontSize: 28, fontWeight: "bold", margin: 0, letterSpacing: -0.5, color: C.accent, fontFamily: "'Georgia', serif" },
+  title: { fontSize: 28, fontWeight: "bold", margin: 0, letterSpacing: -0.5, color: C.text, fontFamily: "'Georgia', serif" },
   subtitle: { fontSize: 13, color: C.muted, marginTop: 2 },
   headerRight: { background: C.card, borderRadius: 12, padding: "10px 14px", textAlign: "right", minWidth: 80, border: `1px solid ${C.border}` },
   headerNum: { fontSize: 26, fontWeight: "bold", color: C.accent, lineHeight: 1, display: "block" },
@@ -105,10 +105,10 @@ const S = {
   avgCard: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: "8px 10px", textAlign: "center" },
   avgNum: { fontSize: 18, fontWeight: "bold", color: C.accent, display: "block" },
   avgLabel: { fontSize: 11, color: C.muted, marginTop: 1, display: "block" },
-  mealItem: { padding: "6px 0" },
-  mealName: { fontSize: 15, fontWeight: "600", color: C.text, marginBottom: 1 },
-  mealKcal: { fontSize: 13, fontWeight: "bold", color: C.accent },
-  mealProt: { fontSize: 13, color: C.muted },
+  mealItem: { padding: "6px 0", display: "flex", justifyContent: "space-between", alignItems: "flex-start" },
+  mealName: { fontSize: 15, fontWeight: "600", color: C.text },
+  mealKcal: { fontSize: 13, fontWeight: "bold", color: C.accent, display: "block", textAlign: "right" },
+  mealProt: { fontSize: 13, color: C.muted, display: "block", textAlign: "right" },
   targetGrid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 },
   targetCard: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: "14px" },
   targetNum: { fontSize: 28, fontWeight: "bold", color: C.accent, lineHeight: 1 },
@@ -722,7 +722,10 @@ export default function FitnessTracker() {
                   {activeMeals.map((m, i) => (
                     <div key={i} style={{ ...S.mealItem, borderBottom: i < activeMeals.length - 1 ? `1px solid ${C.border}` : "none" }}>
                       <div style={S.mealName}>{m.name}</div>
-                      <div><span style={S.mealKcal}>{fmt(m.cal)} Kcal</span><span style={S.mealProt}> · {m.prot}g</span></div>
+                      <div>
+                        <span style={S.mealKcal}>{fmt(m.cal)} Kcal</span>
+                        <span style={S.mealProt}>{m.prot}g</span>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -908,7 +911,10 @@ export default function FitnessTracker() {
                         {meals.map((m, i) => (
                           <div key={i} style={{ ...S.mealItem, borderBottom: i < meals.length - 1 ? `1px solid ${C.border}` : "none" }}>
                             <div style={S.mealName}>{m.name}</div>
-                            <div><span style={S.mealKcal}>{fmt(m.cal)} Kcal</span><span style={S.mealProt}> · {m.prot}g</span></div>
+                            <div>
+                              <span style={S.mealKcal}>{fmt(m.cal)} Kcal</span>
+                              <span style={S.mealProt}>{m.prot}g</span>
+                            </div>
                           </div>
                         ))}
                       </div>
@@ -918,16 +924,14 @@ export default function FitnessTracker() {
                         <div style={{ fontSize: 11, letterSpacing: 1, color: C.muted, fontWeight: 600, marginBottom: 8, fontFamily: "system-ui" }}>GYM SESSION</div>
                         {gymEntry.exercises.map((ex, ei) => (
                           <div key={ei} style={{ marginBottom: ei < gymEntry.exercises.length - 1 ? 10 : 0 }}>
-                            <div style={{ fontSize: 13, fontWeight: "bold", marginBottom: 4 }}>
-                              {ex.name}
-                              {ex.muscleGroups?.length > 0 && <span style={{ fontSize: 11, color: C.muted, fontWeight: "normal", marginLeft: 8 }}>{ex.muscleGroups.join(", ")}</span>}
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 4 }}>
+                              <div style={{ fontSize: 13, fontWeight: "bold" }}>{ex.name}</div>
+                              {ex.muscleGroups?.length > 0 && <div style={{ fontSize: 11, color: C.muted, textAlign: "right" }}>{ex.muscleGroups.join(", ")}</div>}
                             </div>
                             {ex.sets.map((set, si) => (
-                              <div key={si} style={{ fontSize: 12, paddingLeft: 8, lineHeight: 1.9 }}>
-                                <span style={{ color: C.muted }}>Set {si + 1}</span>
-                                <span style={{ color: C.muted }}> · </span>
-                                <strong style={{ color: C.accent }}>{set.weight}kg</strong>
-                                <span style={{ color: C.text }}> × {set.reps}</span>
+                              <div key={si} style={{ fontSize: 12, lineHeight: 1.9 }}>
+                                <span style={{ color: C.muted }}>Set {si + 1}: </span>
+                                <strong>{set.weight}kg × {set.reps}</strong>
                                 {set.notes && <span style={{ color: C.muted, fontStyle: "italic" }}> — {set.notes}</span>}
                               </div>
                             ))}
