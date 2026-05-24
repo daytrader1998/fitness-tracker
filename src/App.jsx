@@ -847,7 +847,7 @@ export default function FitnessTracker() {
             </div>
             {allDays.length === 0 ? (
               <div style={{ color: C.muted, fontSize: 14 }}>No data logged yet.</div>
-            ) : allDays.map(date => {
+            ) : allDays.slice(0, 30).map(date => {
               const meals = mealLog[date] || [];
               const wEntry = weightLog[date];
               const gymEntry = gymLog[date];
