@@ -218,18 +218,22 @@ function ProgressChart({ weightLog, mealLog, gymLog }) {
   const chartW = W - PAD.l - PAD.r;
   const chartH = H - PAD.t - PAD.b;
   const n = entries.length;
-  const xScale = (i) => PAD.l + (i / Math.max(n - 1, 1)) * chartW;
+  const minDate = parseDateStr(entries[0][0]);
+  const maxDate = parseDateStr(entries[n - 1][0]);
+  const totalMs = Math.max(maxDate - minDate, 1);
+  const xFromDate = (dateStr) => PAD.l + ((parseDateStr(dateStr) - minDate) / totalMs) * chartW;
+  const totalDays = totalMs / (1000 * 60 * 60 * 24);
   const yScaleW = (v) => PAD.t + chartH - ((v - minW) / (maxW - minW)) * chartH;
   const yScalePct = (v) => PAD.t + chartH / 2 - (v / maxPct) * (chartH / 2);
-  const weightPath = weights.map((w, i) => `${i === 0 ? "M" : "L"}${xScale(i)},${yScaleW(w)}`).join(" ");
-  const leanPath = leans.map((l, i) => `${i === 0 ? "M" : "L"}${xScale(i)},${yScaleW(l)}`).join(" ");
+  const weightPath = entries.map(([date], i) => `${i === 0 ? "M" : "L"}${xFromDate(date)},${yScaleW(weights[i])}`).join(" ");
+  const leanPath = entries.map(([date], i) => `${i === 0 ? "M" : "L"}${xFromDate(date)},${yScaleW(leans[i])}`).join(" ");
   const wLabels = [minW, (minW + maxW) / 2, maxW].map(v => Math.round(v * 10) / 10);
   const pctLabels = [-maxPct, 0, maxPct];
   const zeroY = yScalePct(0);
-  const barW = Math.max(4, chartW / Math.max(n, 1) - 4);
+  const barW = Math.max(4, Math.min((chartW / totalDays) * 0.6, chartW / Math.max(n, 1)));
   const dateLabels = [];
-  if (n > 0) dateLabels.push({ i: 0, label: formatDateFull(entries[0][0]) });
-  if (n > 1) dateLabels.push({ i: n - 1, label: formatDateFull(entries[n - 1][0]) });
+  if (n > 0) dateLabels.push({ date: entries[0][0], label: formatDateFull(entries[0][0]), anchor: "start" });
+  if (n > 1) dateLabels.push({ date: entries[n - 1][0], label: formatDateFull(entries[n - 1][0]), anchor: "end" });
 
   return (
     <div>
@@ -247,22 +251,22 @@ function ProgressChart({ weightLog, mealLog, gymLog }) {
         <line x1={PAD.l} x2={W - PAD.r} y1={zeroY} y2={zeroY} stroke={C.muted} strokeDasharray="2,4" strokeWidth={1} opacity={0.4} />
         {deficitData.map((d, i) => {
           if (!d) return null;
-          const x = xScale(i) - barW / 2;
+          const x = xFromDate(entries[i][0]) - barW / 2;
           const barH = Math.abs(yScalePct(d.pct) - zeroY);
           const y = d.pct >= 0 ? zeroY - barH : zeroY;
           return <rect key={`bar${i}`} x={x} y={y} width={barW} height={Math.max(barH, 1)} fill={d.color} opacity={0.75} rx={2} />;
         })}
         <path d={leanPath} fill="none" stroke={C.green} strokeWidth={2} strokeDasharray="5,4" />
-        {leans.map((l, i) => <circle key={`ln${i}`} cx={xScale(i)} cy={yScaleW(l)} r={3} fill={C.green} />)}
+        {leans.map((l, i) => <circle key={`ln${i}`} cx={xFromDate(entries[i][0])} cy={yScaleW(l)} r={3} fill={C.green} />)}
         <path d={weightPath} fill="none" stroke={C.accent} strokeWidth={2.5} />
-        {weights.map((w, i) => <circle key={`wt${i}`} cx={xScale(i)} cy={yScaleW(w)} r={4} fill={C.accent} />)}
-        {entries.map(([date], i) => {
+        {weights.map((w, i) => <circle key={`wt${i}`} cx={xFromDate(entries[i][0])} cy={yScaleW(w)} r={4} fill={C.accent} />)}
+        {entries.map(([date]) => {
           const hasGym = gymLog[date] && gymLog[date].exercises && gymLog[date].exercises.length > 0;
           if (!hasGym) return null;
-          return <text key={`gym${i}`} x={xScale(i)} y={PAD.t - 6} textAnchor="middle" fontSize={10} fill={C.accent}>★</text>;
+          return <text key={`gym${date}`} x={xFromDate(date)} y={PAD.t - 6} textAnchor="middle" fontSize={10} fill={C.accent}>★</text>;
         })}
-        {dateLabels.map(({ i, label }) => (
-          <text key={`dl${i}`} x={xScale(i)} y={H - 4} textAnchor={i === 0 ? "start" : "end"} fontSize={9} fill={C.muted}>{label}</text>
+        {dateLabels.map(({ date, label, anchor }) => (
+          <text key={`dl${date}`} x={xFromDate(date)} y={H - 4} textAnchor={anchor} fontSize={9} fill={C.muted}>{label}</text>
         ))}
       </svg>
       <div style={{ display: "flex", gap: 14, justifyContent: "center", marginTop: 8, flexWrap: "wrap" }}>
